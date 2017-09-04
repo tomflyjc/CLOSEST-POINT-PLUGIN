@@ -4,7 +4,9 @@ http://gis.stackexchange.com/questions/396/nearest-neighbor-between-a-point-laye
 
 WARNING one ! : This plugin only deal with points and lines objects not multi-points or multi-lines objects !
 
-WARNING two ! : read below, in very spectial cases depending on a chosen parameter asked mismatchs may occurs.
+WARNING two ! : read below, in very spetial/rare cases depending on a chosen parameter asked, mismatchs may occurs.
+
+WARNING three  !:</b><br> <b>Work vith projected datas only, in other words do not use geographical (long-lat type) reference systems    !
 
 In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the lines layers.
 Of course, all ojects can be selected. 
@@ -19,6 +21,5 @@ As this function use bounding boxes, errors may occurs in special cases as a ver
 The speed of the working process depend of this K parameter.
 With few lines objets of equal size you may use k=1, but rather use k=3 in general cases. 
 With bigger amount of lines near a point better to rise k to k=5 or even greater.
-hopes it helps.
 
 Althougth same treatment exists in a better way with sql function in postgis or can be achieved with grass v.net.connect, i hope this plugins may be of some help. 
