@@ -6,7 +6,7 @@ WARNING one ! : This plugin only deal with points and lines objects not multi-po
 
 WARNING two ! : read below, in very spetial/rare cases depending on a chosen parameter asked, mismatchs may occurs.
 
-WARNING three !:Work vith projected datas only, in other words do not use geographical (long-lat type) reference systems    !
+WARNING three !: Work with projected datas only, in other words do not use geographical (long-lat type) reference systems !
 
 In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the lines layers.
 Of course, all ojects can be selected. 
