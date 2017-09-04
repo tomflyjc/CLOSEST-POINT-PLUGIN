@@ -2,7 +2,7 @@
 A little QGIS plugin to find the nearest point from a points layer to a lines layer, inspire by:
 http://gis.stackexchange.com/questions/396/nearest-neighbor-between-a-point-layer-and-a-line-layer  
 
-WARNING one ! : This plugin only deal with points et lines objects not multi-points or multi-lines objects !
+WARNING one ! : This plugin only deal with points and lines objects not multi-points or multi-lines objects !
 
 WARNING two ! : read below, in very spectial cases depending on a chosen parameter asked mismatchs may occurs.
 
