@@ -1,4 +1,4 @@
-# CLOSEST-POINT-PLUGIN
+# ClosestPoint
 <b><br> A little QGIS plugin to find the nearest point from a points layer to a lines layer, inspire by:
 http://gis.stackexchange.com/questions/396/nearest-neighbor-between-a-point-layer-and-a-line-layer  </b>
 
