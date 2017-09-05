@@ -6,7 +6,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(QtCore.QSize(QtCore.QRect(0,0,320,360).size()).expandedTo(Dialog.minimumSizeHint()))
+        Dialog.resize(QtCore.QSize(QtCore.QRect(0,0,440,660).size()).expandedTo(Dialog.minimumSizeHint()))
 
         self.gridlayout = QtGui.QGridLayout(Dialog)
         self.gridlayout.setObjectName("gridlayout")
@@ -61,35 +61,37 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Polygons_Pile", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Dialog", "Polygons_Pile 0.1", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "ClosestPoint", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("Dialog", "ClosestPoint 0.1", None, QtGui.QApplication.UnicodeUTF8))
         self.textEdit.setHtml(QtGui.QApplication.translate("Dialog", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:8pt;\"><span style=\" font-weight:600;\">"
-        "Plus Proche Point Projeté :</span>" "  A little QGIS plugin to find the nearest point from a points layer to a lines layer                                                                                              "+
-        " <br><b>WARNING one !:</b><br> <b>This plugin only deal with points and lines objects not multi-points or multi-lines objects  !</b>                                              " +
-        " <br><b>WARNING two  !:</b><br> <b>Read below, in very spetial cases, depending on a chosen parameter asked, mismatchs may occurs  !</b>                                              " +
-        " <br><b>WARNING three  !:</b><br> <b>Work vith projected datas only, in other words do not use geographical (long-lat type) reference systems    !</b>                                              " +
-        " In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the lines layers.                                                      "+
-        " Of course, all ojects can be selected. It plots the nearest projection of the points to a the lines.                                                              "+
-        " It use the QGIS function 'nearestNeighbor' and ask for a k parameter : nearestsfids=indexBerge.nearestNeighbor(geomP.asPoint(),counterSelec)                          "+     #QMessageBox.information(None,"DEBUGnearestIndex:",str(nearestsfids))
-        " This function is used to speed up the code and not compare a point object to all the vertex and nodes of all the lines'ones.                                      "+
-        " This parameter 'k' is used to return this very number k of nearest neighbor lines objects to a single point object.                                                                      "+
-        " See for instance http://blog.vitu.ch/10212013-1331/advanced-feature-requests-qgis. for further explanations.                                              "+
-        " Once the nearest neighbors are found the point is projected to the closest vertex or nodes.                                                                        " +
-		" As this function use bounding boxes, errors may occurs in special cases as a very spectial geometry may be the closest one but may not be 'retreaved' by the nearestNeighbor' process.  "+
-        " The speed of the working process depend of this K parameter.                                                                                                          "+
-        " With few lines objets of equal size you may use k=1, but rather use k=3 in general cases.                                                                               "+
-	    " With bigger amount of lines near a point better to rise k to k=5 or even greater.                                                                                       "+
-        " Althougth same treatments exist in a better ways - with sql function in postgis - or can be achieved with grass v.net.connect, i hope this plugins may be of some help.                                                                                                          "+
-        " the plugin produces a layer of projedted points with the points layer attribute table with some more extra attributes columns :                                                                                          "+
-        " - a distance attribute with the  distance between the point and the line closest vertex or node,                                                         " +
-        " - two columns with the coordinates of the starting point,                                                                                                " +                                                           
-        " - two columns with the coordinates of the projected point uppon lines objects,                                                                                       " +
-        "                                                        "+
-        "                                                                                                                                                                           "+
-        " NOTA BENE: all rasters should be unchecked in layer panel or the plugin won't work !                                                                          </b>" 
+        " ClosestPoint :</span>" "  A little QGIS plugin to find the nearest projected points from a points layer to a lines layer</b>\n"+
+        " <br><b>WARNING one :</b><br> <b>This plugin only deals with points and lines objects not multi-points or multi-lines objects !</b>\n " +
+        " <br><b>WARNING two  :</b><br> <b>Work with projected datas only, in other words do not use geographical (long-lat type) reference systems !</b>\n " +
+        " <br><b>WARNING three  :</b><br> <b>Read below, as in very hypothetical special cases, mismatchs may occur, depending on the value chosen for searching the points' nearest neighbors !</b>\n " +
+        "                                                                                                                                                                 \n"+
+        " In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the line layer.                                                      \n " +
+        " Of course, all objects can be selected. It plots the nearest projection of the points to a the lines.\n " +
+        "                                                                                                                                                                   \n"+
+        " It use the QGIS function 'nearestNeighbor' and ask for a k parameter in the code like: nearestsfids=lines.nearestNeighbor(geomP.asPoint(),k).                      \n " +    
+        " This function is used to speed up the code as it avoids comparing a point object to all the vertex and nodes of all the lines.                                                                             \n " +
+        " This parameter 'k' is used to return this very number k of nearest neighbor/lines objects to a single point object.\n " +
+        " See for instance for further explanations: http://blog.vitu.ch/10212013-1331/advanced-feature-requests-qgis                                                          \n " +
+        " Once the nearest neighbors/lines are found the point is projected to the closest vertex or nodes.\n " +
+        "                                                                                                                                                    \n"+
+	" As this function use bounding boxes, errors may occurs in special cases as theorically very spectial geometries may share same bounding boxes and the real closest one may not be 'retreaved' by the nearestNeighbor' process.\n" +
+        " The speed of the working process depend of this K parameter.\n " +
+        " With few lines objets of equal size you may use k=1, but rather use k=3 in general cases.\n" +
+	" With bigger amount of lines near a point better to rise k to k=5 or even greater. \n " +
+        " Althougth same treatments exist in a better ways - with sql function in postgis - or can be achieved with grass v.net.connect, i hope this plugins may be of some help.\n" +
+        "                                                                                                                                                    \n"+
+        " the plugin produces a layer of projedted points with the points layer attribute table with some more extra attributes columns :\n " +
+        " - a distance attribute with the  distance between the point and the line closest vertex or node,\n " +
+        " - two columns with the coordinates of the starting point\n"+
+        " - two columns with the coordinates of the projected point uppon lines objects\n" +
+        " <br><b><i>NOTA BENE: all rasters should be unchecked in layer panel or the plugin won't work !</i></b></br>" 
         " This plugin is not a part of Qgis engine and any problems should be reported only to the author. </p></td></tr></table>"
         "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
         "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"

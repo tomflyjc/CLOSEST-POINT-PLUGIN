@@ -27,13 +27,13 @@ class Ui_Dialog(object):
         self.iface = iface
         Dialog.setObjectName("Dialog")
         Dialog.resize(QtCore.QSize(QtCore.QRect(0,0,340,250).size()).expandedTo(Dialog.minimumSizeHint()))
-        Dialog.setWindowTitle("Closest Point")
+        Dialog.setWindowTitle("ClosestPoint")
         
         # QLabel lancer recherche
         self.label10 = QtGui.QLabel(Dialog)
-        self.label10.setGeometry(QtCore.QRect(15,15,300,18))
+        self.label10.setGeometry(QtCore.QRect(15,15,320,18))
         self.label10.setObjectName("label10")
-        self.label10.setText("Select a layer of points to project :  ")
+        self.label10.setText("Select a layer of points to project (with points selected):  ")
 
         ListeCouchesPoint=[""]
         NbCouches=self.iface.mapCanvas().layerCount()
@@ -57,20 +57,20 @@ class Ui_Dialog(object):
 
         # QLabel de couche ligne
         self.label = QtGui.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(15,60,280,23))
+        self.label.setGeometry(QtCore.QRect(15,60,320,18))
         self.label.setObjectName("label")
-        self.label.setText("<u>Select a layer of lines to project the points uppon : </u>")
+        self.label.setText("Select a layer of lines (with lines selected): ")
 
         ListeCouchesLigne=[""]
         NbCouches=self.iface.mapCanvas().layerCount()
         for i in range(0,NbCouches):
             couche=self.iface.mapCanvas().layer(i)
             # 1 pour ligne
-            if couche.geometryType()== 1 or couche.geometryType()== 2 or couche.geometryType()== 4 or couche.geometryType()== 5:
+            if couche.geometryType()== 1 or couche.geometryType()== 4 :
                 if couche.isValid():
                    ListeCouchesLigne.append(couche.name())
                 else:
-                   QMessageBox.information(None,"information:","no layer with lines or bondaries ! ")
+                   QMessageBox.information(None,"information:","no layer with lines ! ")
                    return None
         
         self.ComboBoxLignes = QtGui.QComboBox(Dialog)
@@ -82,14 +82,14 @@ class Ui_Dialog(object):
 
         # QLabel entrer le facteur k nearest neighbor
         self.labelKNearestNeighbor = QtGui.QLabel(Dialog)
-        self.labelKNearestNeighbor.setGeometry(QtCore.QRect(10,115,280,23))
+        self.labelKNearestNeighbor.setGeometry(QtCore.QRect(15,115,280,23))
         self.labelKNearestNeighbor.setObjectName(" KNearestNeighbor")
-        self.labelKNearestNeighbor.setText("Enter the k number of nearest lines objects- try 3 :")
+        self.labelKNearestNeighbor.setText("Enter the k number of nearest lines objects - try 3 :")
         
         self.TextEditKNearestNeighbor = QtGui.QLineEdit(Dialog)
         self.TextEditKNearestNeighbor.setMinimumSize(QtCore.QSize(40, 20))
         self.TextEditKNearestNeighbor.setMaximumSize(QtCore.QSize(40, 20))
-        self.TextEditKNearestNeighbor.setGeometry(QtCore.QRect(255,115,40,20))
+        self.TextEditKNearestNeighbor.setGeometry(QtCore.QRect(265,115,40,20))
         self.TextEditKNearestNeighbor.setObjectName("TextEditKNearestNeighbor")
         
         #Exemple de QPushButton
@@ -124,7 +124,7 @@ class Ui_Dialog(object):
         self.aboutButton.setMaximumSize(QtCore.QSize(70, 20))        
         self.aboutButton.setGeometry(QtCore.QRect(30, 195, 70, 23))
         self.aboutButton.setObjectName("aboutButton")
-        self.aboutButton.setText(" Help ")
+        self.aboutButton.setText(" Read me ")
         
         self.PushButton = QtGui.QPushButton(Dialog)
         self.PushButton.setMinimumSize(QtCore.QSize(100, 20))
@@ -162,7 +162,7 @@ class Ui_Dialog(object):
         for featL in CoucheL.selectedFeatures():
             counterL+=1
         if counterL==0:
-            QMessageBox.information(None,"information:","Select a least one point feature in "+ str(CoucheL.name())+ " layer !") 
+            QMessageBox.information(None,"information:","Select a least one line feature in "+ str(CoucheL.name())+ " layer !") 
         
                 
     def doAbout(self):

@@ -2,7 +2,7 @@
 # Mandatory items:
 
 [general]
-name=Closest Point
+name=ClosestPoint
 qgisMinimumVersion=2.0.0
 category=Vector
 description= Points Projector for QGIS count as for the SQL function ClosestPoint.
@@ -26,4 +26,4 @@ deprecated=False
 author=Jean-Christophe BAUDIN
 email=jeanchristophebaudin@ymail.com
 
-class_name=Closest Point
+class_name=ClosestPoint
