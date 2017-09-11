@@ -12,7 +12,7 @@ In order to work, previous starting, the user must choose a selection of points 
 Of course, all ojects can be selected. 
 It plots the nearest projection of the points to a the lines.
 
-It use the QGIS function 'nearestNeighbor' and ask for a k parameter. 
+It uses the QGIS function 'nearestNeighbor' and ask for a k parameter. 
 This function is used to speed up the code and not compare a point object to all the vertex and nodes of all the lines'ones.
 This parameter 'k' is used to return this very number k of nearest neighbor lines objects to a single point object. 
 See for further explanations for instance: http://blog.vitu.ch/10212013-1331/advanced-feature-requests-qgis. 
