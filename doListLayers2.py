@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from qgis import *
-from qgis.gui  import QgsMapCanvas
-from qgis.core import *
-from qgis.gui import *
-import os
-from qgis.gui  import QgsMapCanvas
+# -*- coding: iso-8859-1 -*-
+
+from qgis.PyQt.QtWidgets import QAction, QMessageBox,QDialog
+from qgis.utils import iface
 #import de la classe boîte de dialogue, liste des couches
+# Qgis2: from listlayers2 import Ui_Dialog
 from listlayers2 import Ui_Dialog
 
 class Dialog(QDialog, Ui_Dialog):
-	def __init__(self):
-		QDialog.__init__(self)
-		self.setupUi(self)
+        def __init__(self,):
+                QDialog.__init__(self)
+                self.setupUi(self)
  
