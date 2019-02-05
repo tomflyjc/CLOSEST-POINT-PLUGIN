@@ -1,18 +1,45 @@
 # -*- coding: utf-8 -*-
-#nécessaire pour les connections signals / slots
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-import os.path
-from PyQt4 import QtCore, QtGui
-
+# (c) JC BAUDIN 2019 02 05
 # import de QGIS
-from qgis import *
-from qgis.core import *
-from qgis.gui import *
-from qgis.gui import QgsMapCanvas
-from qgis.utils import iface
+from PyQt5 import QtCore
+from PyQt5 import QtGui
+from PyQt5.QtCore import QVariant
+from qgis.PyQt.QtWidgets import     (QMessageBox,
+                                    QDialog,
+                                    QProgressBar,
+                                    QDialogButtonBox,
+                                    QAction,
+                                    QLabel,
+                                    QComboBox,
+                                    QPushButton,
+                                    QLineEdit,
+                                    QApplication)
 
-import processing
+ 
+
+from qgis.core import  (QgsProject,
+                        QgsMapLayer,
+                        QgsWkbTypes,
+                       QgsVectorLayer,
+                       QgsField,
+                       QgsFields,
+                       QgsFeature,
+                       QgsFeatureSink,
+                       QgsFeatureRequest,
+                       QgsGeometry,
+                       QgsPointXY,
+                       QgsWkbTypes,
+                       QgsRectangle,
+                       QgsFeature,
+                       QgsSpatialIndex,
+                       QgsCoordinateTransform,
+                       QgsFeatureRequest,
+                       QgsVector,
+                       QgsProject,
+                       QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform)
+                       
+from qgis.utils import iface
 
 import os
 import os.path
@@ -20,9 +47,10 @@ import fonctionsF
 import doAbout
 
 class Ui_Dialog(object):
+    """
     def __init__(self, iface):
         self.iface = iface
-    
+    """
     def setupUi(self, Dialog):
         self.iface = iface
         Dialog.setObjectName("Dialog")
@@ -30,7 +58,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle("ClosestPoint")
         
         # QLabel lancer recherche
-        self.label10 = QtGui.QLabel(Dialog)
+        self.label10 = QLabel(Dialog)
         self.label10.setGeometry(QtCore.QRect(15,15,320,18))
         self.label10.setObjectName("label10")
         self.label10.setText("Select a layer of points to project (with points selected):  ")
@@ -48,7 +76,7 @@ class Ui_Dialog(object):
                     else:
                        QMessageBox.information(None,"information:","No layers with points ! ")
                        return None
-        self.ComboBoxPoints = QtGui.QComboBox(Dialog)
+        self.ComboBoxPoints = QComboBox(Dialog)
         self.ComboBoxPoints.setMinimumSize(QtCore.QSize(300, 25))
         self.ComboBoxPoints.setMaximumSize(QtCore.QSize(300, 25))
         self.ComboBoxPoints.setGeometry(QtCore.QRect(10, 35, 300,25))
@@ -56,7 +84,7 @@ class Ui_Dialog(object):
         for i in range(len(ListeCouchesPoint)):  self.ComboBoxPoints.addItem(ListeCouchesPoint[i])
 
         # QLabel de couche ligne
-        self.label = QtGui.QLabel(Dialog)
+        self.label = QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(15,60,320,18))
         self.label.setObjectName("label")
         self.label.setText("Select a layer of lines (with lines selected): ")
@@ -73,7 +101,7 @@ class Ui_Dialog(object):
                    QMessageBox.information(None,"information:","no layer with lines ! ")
                    return None
         
-        self.ComboBoxLignes = QtGui.QComboBox(Dialog)
+        self.ComboBoxLignes = QComboBox(Dialog)
         self.ComboBoxLignes.setMinimumSize(QtCore.QSize(300, 25))
         self.ComboBoxLignes.setMaximumSize(QtCore.QSize(300, 25))
         self.ComboBoxLignes.setGeometry(QtCore.QRect(10, 80, 300,25))
@@ -81,19 +109,19 @@ class Ui_Dialog(object):
         for i in range(len(ListeCouchesLigne)):  self.ComboBoxLignes.addItem(ListeCouchesLigne[i])
 
         # QLabel entrer le facteur k nearest neighbor
-        self.labelKNearestNeighbor = QtGui.QLabel(Dialog)
+        self.labelKNearestNeighbor = QLabel(Dialog)
         self.labelKNearestNeighbor.setGeometry(QtCore.QRect(15,115,280,23))
         self.labelKNearestNeighbor.setObjectName(" KNearestNeighbor")
         self.labelKNearestNeighbor.setText("Enter the k number of nearest lines objects - try 3 :")
         
-        self.TextEditKNearestNeighbor = QtGui.QLineEdit(Dialog)
+        self.TextEditKNearestNeighbor = QLineEdit(Dialog)
         self.TextEditKNearestNeighbor.setMinimumSize(QtCore.QSize(40, 20))
         self.TextEditKNearestNeighbor.setMaximumSize(QtCore.QSize(40, 20))
         self.TextEditKNearestNeighbor.setGeometry(QtCore.QRect(265,115,40,20))
         self.TextEditKNearestNeighbor.setObjectName("TextEditKNearestNeighbor")
         
         #Exemple de QPushButton
-        self.DoButton = QtGui.QPushButton(Dialog)
+        self.DoButton = QPushButton(Dialog)
         self.DoButton.setMinimumSize(QtCore.QSize(200, 20))
         self.DoButton.setMaximumSize(QtCore.QSize(200, 20))        
         self.DoButton.setGeometry(QtCore.QRect(60,150, 200, 20))
@@ -102,7 +130,7 @@ class Ui_Dialog(object):
  
      
         #Exemple de QLCDNumber
-        self.progressBar = QtGui.QProgressBar(Dialog)
+        self.progressBar = QProgressBar(Dialog)
         self.progressBar.setProperty("value", 0)
         self.progressBar.setMinimumSize(QtCore.QSize(260, 15))
         self.progressBar.setMaximumSize(QtCore.QSize(260, 15))
@@ -119,25 +147,25 @@ class Ui_Dialog(object):
         
         
         #Exemple de QPushButton
-        self.aboutButton = QtGui.QPushButton(Dialog)
+        self.aboutButton = QPushButton(Dialog)
         self.aboutButton.setMinimumSize(QtCore.QSize(70, 20))
         self.aboutButton.setMaximumSize(QtCore.QSize(70, 20))        
         self.aboutButton.setGeometry(QtCore.QRect(30, 195, 70, 23))
         self.aboutButton.setObjectName("aboutButton")
         self.aboutButton.setText(" Read me ")
         
-        self.PushButton = QtGui.QPushButton(Dialog)
+        self.PushButton = QPushButton(Dialog)
         self.PushButton.setMinimumSize(QtCore.QSize(100, 20))
         self.PushButton.setMaximumSize(QtCore.QSize(100, 20))
         self.PushButton.setGeometry(QtCore.QRect(185, 195, 100,20))
         self.PushButton.setObjectName("PushButton")
         self.PushButton.setText("Close")
 
-        QtCore.QObject.connect(self.PushButton,QtCore.SIGNAL("clicked()"),Dialog.reject)
-        QtCore.QObject.connect(self.ComboBoxPoints,QtCore.SIGNAL("currentIndexChanged(QString)"),self.onComboP)
-        QtCore.QObject.connect(self.ComboBoxLignes,QtCore.SIGNAL("currentIndexChanged(QString)"),self.onComboL)
-        QtCore.QObject.connect(self.aboutButton, SIGNAL("clicked()"), self.doAbout)
-        QtCore.QObject.connect(self.DoButton, SIGNAL("clicked()"), self.Run)
+        self.PushButton.clicked.connect(Dialog.reject)
+        self.ComboBoxPoints.activated[str].connect(self.onComboP)
+        self.ComboBoxLignes.activated[str].connect(self.onComboL)
+        self.aboutButton.clicked.connect(self.doAbout)
+        self.DoButton.clicked.connect(self.Run)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
                                                              
     def onComboP(self):
@@ -183,7 +211,6 @@ class Ui_Dialog(object):
         if counterSelec==0 :
             QMessageBox.information(None,"information:","enter a value for k, at least 1 ") 
         
-             
         #zdim est le compteur de la progress bar    
         zDim = counterP
         indexBerge=QgsSpatialIndex()
@@ -194,7 +221,7 @@ class Ui_Dialog(object):
         if counterP!=0:
             if  counterL!=0: 
                 PtsProj= QgsVectorLayer("Point", str(CoucheP.name())+"_Projected", "memory")
-                QgsMapLayerRegistry.instance().addMapLayer(PtsProj)
+                QgsProject.instance().addMapLayer(PtsProj)
                 prPtsProj = PtsProj.dataProvider()
                 providerP = CoucheP.dataProvider()
                 fieldsP = providerP.fields()
@@ -211,6 +238,7 @@ class Ui_Dialog(object):
                                           QgsField("Xproj", QVariant.Double),
                                           QgsField("Yproj", QVariant.Double)])
                 #QMessageBox.information(None,"DEBUG3:","npos ")
+             
                 for featP in CoucheP.selectedFeatures():
                     attributs=featP.attributes()
                     counterProgess+=1
@@ -229,33 +257,24 @@ class Ui_Dialog(object):
                     first= True
                     for featL in CoucheL.getFeatures(request):
                         geomL=featL.geometry()
-                        distinit,mindistpt,aftervertexinit=geomL.closestSegmentWithContext(PointP)
-                        ProjPoint=QgsPoint(mindistpt[0],mindistpt[1])
-                        tata=''
-                        tata=tata+' distii : '+ str(aftervertexinit)
-                        tata=tata+' mindistpt : '+ str(mindistpt)
-                        tata=tata+' mindistpt[0] : '+ str(mindistpt[0])+' mindistpt[1] : '+ str(mindistpt[1])
-                        tata=tata+ 'aftervertexinit : '+ str(aftervertexinit)
-                        #:QMessageBox.information(None,"DEBUG", tata)
+                        distinit,mindistpt,aftervertexinit,leftoff=geomL.closestSegmentWithContext(PointP)
+                        #https://qgis.org/api/classQgsGeometry.html
+                        ProjPoint=QgsPointXY(mindistpt[0],mindistpt[1])
                         Distance=fonctionsF.magnitude(PointP, ProjPoint)
                         #QMessageBox.information(None,"DEBUG", 'Distance:  Distance' +str(Distance))
                         if first:
                             minVal,nearest_point,first = Distance,ProjPoint,False
                         else:
-                            if Distance < minVal:
-				minVal=Distance
-                        	nearest_point=ProjPoint
-		    PProjMin=nearest_point
-                    min_dist=minVal                            
-                    Geom= QgsGeometry().fromPoint(PProjMin)    
+                            if Distance < minVal:minVal,nearest_point=Distance,ProjPoint
+                    PProjMin=nearest_point
+                    min_dist=minVal
+
+                    Geom= QgsGeometry().fromPointXY(PProjMin)    
                     PX=float(format(geomP.asPoint().x(), '.2f'))
                     PY=float(format(geomP.asPoint().y(), '.2f'))
                     newfeat = QgsFeature()
                     newfeat.setGeometry(Geom)
-                    #ValuesEnveloppes=[]
-                    #ValuesEnveloppes.extend(attributs)
                     Values= featP.attributes()
-                    #QMessageBox.information(None,"DEBUG Values", str(Values))
                     Values.append(min_dist)
                     Values.append(fonctionsF.twodecimal(PX))
                     Values.append(fonctionsF.twodecimal(PY))
