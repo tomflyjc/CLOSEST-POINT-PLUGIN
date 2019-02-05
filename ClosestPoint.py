@@ -13,7 +13,7 @@ from qgis.PyQt.QtCore import *
 import sys
 sys.path.append(os.path.dirname(__file__))
 
-import doAbout
+import doAboutClosestPoint
 import doListLayers2
 from qgis.gui  import QgsMapCanvas
 
@@ -108,5 +108,5 @@ class MainPlugin(object):
       d.exec_()
 
   def doInfo(self):
-      d = doAbout.Dialog()
+      d = doAboutClosestPoint.Dialog()
       d.exec_()
