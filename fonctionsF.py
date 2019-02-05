@@ -6,7 +6,7 @@
  Projette des points sur une ligne/bordure de polygone à la distance la plus courte: "ClosestPoint"
                               -------------------
         begin                : 2013-11-04
-        copyright            : (C) 2017 by Jean-Christophe Baudin d'après "Nearest neighbor between a point layer and a line layer
+        copyright            : (C) 2019 by Jean-Christophe Baudin d'après "Nearest neighbor between a point layer and a line layer
                                in http://gis.stackexchange.com/questions/396/
                                nearest-pojected-point-from-a-point-
                                layer-on-a-line-or-polygon-outer-ring-layer
@@ -22,19 +22,19 @@
  *                                                                         *
  ***************************************************************************/
 """
-import unicodedata,sys
-from PyQt4 import QtCore
-from PyQt4 import QtGui
-from qgis.core import *
-from qgis.gui import *
 
+from qgis.core import QgsProject, QgsMapLayer, QgsWkbTypes
+from qgis.PyQt.QtCore import QFileInfo, QSettings, QCoreApplication
+from qgis.PyQt.QtCore import QTranslator, qVersion
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QMessageBox,QDialog
 from osgeo import ogr
 from math import sqrt
-from sys import maxint
 
 import csv, sys
 import re
 import os
+import os.path
 import unicodedata
  
 def twodecimal(number):
@@ -67,16 +67,23 @@ def intersect_point_to_line(point, line_start, line_end):
 
 
 def getVectorLayerByName(NomCouche):
-    layermap=QgsMapLayerRegistry.instance().mapLayers()
-    for name, layer in layermap.iteritems():
+    layermap=QgsProject.instance().mapLayers()
+    for name, layer in layermap.items():
         if layer.type()==QgsMapLayer.VectorLayer and layer.name()==NomCouche:
             if layer.isValid():
                return layer
             else:
                return None
             
+"""
+    def getVectorLayerByName(NomCouche):
+    layermap=QgsProject.instance().mapLayers()
+    for name, layer in layermap.items():
+        if layer.name()==NomCouche:
+            if layer.isValid():
+               return layer
+            else:
+               return None
 
-    
 
-
-
+"""
