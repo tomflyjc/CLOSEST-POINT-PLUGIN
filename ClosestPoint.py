@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from qgis.core import *
-from qgis.gui import *
-
 import os
 import os.path
+from qgis.core import QgsProject, QgsMapLayer, QgsWkbTypes
+from qgis.PyQt.QtCore import QFileInfo, QSettings, QCoreApplication
+from qgis.PyQt.QtCore import QTranslator, qVersion
+from qgis.PyQt.QtGui import QIcon
+#from qgis.PyQt.QtWidgets import QAction, QMessageBox,QToolButton
+from qgis.PyQt.QtWidgets import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtCore import *
+import sys
+sys.path.append(os.path.dirname(__file__))
+
 import doAbout
 import doListLayers2
 from qgis.gui  import QgsMapCanvas
@@ -19,11 +24,14 @@ import fonctionsF
 #Fonction de reconstruction du chemin absolu vers la ressource image
 def getThemeIcon(theName):
     myPath = CorrigePath(os.path.dirname(__file__));
+    # initialize the plugin directory
     myDefPathIcons = myPath + "/icons/"
     myDefPath = myPath.replace("\\","/")+ theName;
     myDefPathIcons = myDefPathIcons.replace("\\","/")+ theName;
-    myCurThemePath = QgsApplication.activeThemePath() + "/plugins/" + theName;
-    myDefThemePath = QgsApplication.defaultThemePath() + "/plugins/" + theName;
+    pluginPath = QFileInfo(os.path.realpath(__file__)).path()
+    
+    myCurThemePath =  pluginPath + "/plugins/" + theName;
+    myDefThemePath =  pluginPath + "/plugins/" + theName;
     #Attention, ci-dessous, le chemin est à persoonaliser :
     #remplacer "extension" par le nom du répertoire de l'extension.
     myQrcPath = "python/plugins/extension/" + theName;
@@ -78,8 +86,10 @@ class MainPlugin(object):
 
     #Connection de la commande à l'action
     
-    QObject.connect(self.commande2,SIGNAL("triggered()"),self.LoadDlgBox2)
-    QObject.connect(self.about,SIGNAL("triggered()"),self.doInfo)
+    #QObject.connect(self.commande2,SIGNAL("triggered()"),self.LoadDlgBox2)
+    self.commande2.triggered.connect(self.LoadDlgBox2)
+    #QObject.connect(self.about,SIGNAL("triggered()"),self.doInfo)
+    self.about.triggered.connect(self.doInfo)
 
   #Méthode au déchargement de l'extension
   def unload(self):
