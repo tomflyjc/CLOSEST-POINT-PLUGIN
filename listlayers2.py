@@ -164,7 +164,7 @@ class Ui_Dialog(object):
         self.PushButton.clicked.connect(Dialog.reject)
         self.ComboBoxPoints.activated[str].connect(self.onComboP)
         self.ComboBoxLignes.activated[str].connect(self.onComboL)
-        self.aboutButton.clicked.connect(self.doAboutClosestPoint)
+        self.aboutButton.clicked.connect(self.doAbout)
         self.DoButton.clicked.connect(self.Run)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
                                                              
@@ -194,7 +194,7 @@ class Ui_Dialog(object):
         
                 
     def doAbout(self):
-        d = doAbout.Dialog()
+        d = doAboutClosestPoint.Dialog()
         d.exec_()
     
     def Run(self):
