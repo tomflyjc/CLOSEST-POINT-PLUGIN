@@ -44,7 +44,7 @@ from qgis.utils import iface
 import os
 import os.path
 import fonctionsF
-import doAbout
+import doAboutClosestPoint
 
 class Ui_Dialog(object):
     """
@@ -164,7 +164,7 @@ class Ui_Dialog(object):
         self.PushButton.clicked.connect(Dialog.reject)
         self.ComboBoxPoints.activated[str].connect(self.onComboP)
         self.ComboBoxLignes.activated[str].connect(self.onComboL)
-        self.aboutButton.clicked.connect(self.doAbout)
+        self.aboutButton.clicked.connect(self.doAboutClosestPoint)
         self.DoButton.clicked.connect(self.Run)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
                                                              
