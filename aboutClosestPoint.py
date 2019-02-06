@@ -72,7 +72,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QApplication.translate("Dialog", "ClosestPoint", None))
-        self.label_2.setText(QApplication.translate("Dialog", "ClosestPoint 0.1", None))
+        self.label_2.setText(QApplication.translate("Dialog", "ClosestPoint V3 0.1", None))
         self.textEdit.setHtml(QApplication.translate("Dialog", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
