@@ -72,7 +72,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QApplication.translate("Dialog", "ClosestPoint", None))
-        self.label_2.setText(QApplication.translate("Dialog", "ClosestPoint V3 0.1", None))
+        self.label_2.setText(QApplication.translate("Dialog", "ClosestPoint V3 0.2", None))
         self.textEdit.setHtml(QApplication.translate("Dialog", "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
         "p, li { white-space: pre-wrap; }\n"
         "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
@@ -82,7 +82,7 @@ class Ui_Dialog(object):
         " <br><b>WARNING two  :</b><br> <b>Work with projected datas only, in other words do not use geographical (long-lat type) reference systems !</b>\n " +
         " <br><b>WARNING three  :</b><br> <b>Read below, as in very hypothetical special cases, mismatchs may occur, depending on the value chosen for searching the points' nearest neighbors !</b>\n " +
         "                                                                                                                                                                 \n"+
-        " In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the line layer.                                                      \n " +
+        " In order to work, previous starting, the user must choose a selection of points in the point layer and a selection of lines in the line layer. \n " +
         " Of course, all objects can be selected. It plots the nearest projection of the points to a the lines.\n " +
         "                                                                                                                                                                   \n"+
         " It use the QGIS function 'nearestNeighbor' and ask for a k parameter in the code like: nearestsfids=lines.nearestNeighbor(geomP.asPoint(),k).                      \n " +    
@@ -97,17 +97,20 @@ class Ui_Dialog(object):
 	" With bigger amount of lines near a point better to rise k to k=5 or even greater. \n " +
         " Althougth same treatments exist in a better ways - with sql function in postgis - or can be achieved with grass v.net.connect, i hope this plugins may be of some help.\n" +
         "                                                                                                                                                    \n"+
-        " the plugin produces a layer of projedted points with the points layer attribute table with some more extra attributes columns :\n " +
+        " the plugin produces two layers                                                                                   :\n " +
+        " - a layer of projected points with the points layer attribute table with some more extra attributes columns :\n " +
         " - a distance attribute with the  distance between the point and the line closest vertex or node,\n " +
         " - two columns with the coordinates of the starting point\n"+
         " - two columns with the coordinates of the projected point uppon lines objects\n" +
+        "                                                                                                                                                    \n"+
+        " - a layer of the shortest lines from start point to projected points                                          \n" +                                        
         " <br><b><i>NOTA BENE: all rasters should be unchecked in layer panel or the plugin won't work !</i></b></br>" 
         " This plugin is not a part of Qgis engine and any problems should be reported only to the author. </p></td></tr></table>"
         "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
         "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
         "                   "
         "<br><b>jeanchristophebaudin@ymail.com</b><br>"
-        "<br><br><i>code 0.1 (05 february 2019).</i></p></body></html>", None))
+        "<br><br><i>code 0.2 (14 october 2019).</i></p></body></html>", None))
         self.pushButton.setText(QApplication.translate("Dialog", "OK", None))
 
 
