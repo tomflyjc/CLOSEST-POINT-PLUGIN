@@ -8,12 +8,12 @@ qgisMinimumVersion=3.0.0
 category=Vector
 description= Points Projector for QGIS count as for the SQL function ClosestPoint.
 about= this plugin plots the projected points from a points layer to the closest vertex or nodes of the closest line from a lines layer.
-version=3.0.1
+version=3.0.2
 
 
 # Optional items:
 
-changelog: 3.0.1   first version for QGIS 3.x
+changelog: 0.0.2   second version for QGIS 3.x
 
 tags= Tools, Points, Lines, Projection, Minimum distance- Python  QGIS
 homepage= https://github.com/tomflyjc/CLOSEST-POINT-PLUGIN
