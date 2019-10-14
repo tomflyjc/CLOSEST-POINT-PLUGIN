@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (c) JC BAUDIN 2019 02 05
+# (c) JC BAUDIN 2019 10 14
 # import de QGIS
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -28,6 +28,8 @@ from qgis.core import  (QgsProject,
                        QgsFeatureRequest,
                        QgsGeometry,
                        QgsPointXY,
+                       QgsPoint,
+                    
                        QgsWkbTypes,
                        QgsRectangle,
                        QgsFeature,
@@ -219,7 +221,9 @@ class Ui_Dialog(object):
             counterL+=1
             #QMessageBox.information(None,"DEBUGindex:",str(indexBerge)) 
         if counterP!=0:
-            if  counterL!=0: 
+            if  counterL!=0:
+                # creation couche de points projetes
+                # making of projected points layer
                 PtsProj= QgsVectorLayer("Point", str(CoucheP.name())+"_Projected", "memory")
                 QgsProject.instance().addMapLayer(PtsProj)
                 prPtsProj = PtsProj.dataProvider()
@@ -238,12 +242,31 @@ class Ui_Dialog(object):
                                           QgsField("Xproj", QVariant.Double),
                                           QgsField("Yproj", QVariant.Double)])
                 #QMessageBox.information(None,"DEBUG3:","npos ")
-             
+                # creation de la couche de lignes
+                # making of projected shortest lines layer
+                SEGMENTS= QgsVectorLayer("MultiLineString", "Shortest_Lines_from_"+ str(CoucheP.name()), "memory")
+                QgsProject.instance().addMapLayer(SEGMENTS)
+                prSEGMENTS =SEGMENTS.dataProvider()
+                listFields = [          QgsField("ID_Point", QVariant.Int),
+                                          QgsField("DistanceP", QVariant.Double),
+                                          QgsField("XDep", QVariant.Double),
+                                          QgsField("YDep", QVariant.Double),
+                                          QgsField("Xproj", QVariant.Double),
+                                          QgsField("Yproj", QVariant.Double)]
+                
+                prSEGMENTS.addAttributes(listFields)
+                SEGMENTS.startEditing()
+                newfeatSEGMENTS=QgsFeature()
+                ##
+                
+                attributs=[]
+                
                 for featP in CoucheP.selectedFeatures():
                     attributs=featP.attributes()
                     counterProgess+=1
                     geomP=featP.geometry()
                     PointP=geomP.asPoint()
+                    Point_id = featP.id()
                     nearestsfids=indexBerge.nearestNeighbor(geomP.asPoint(),counterSelec)
                     #QMessageBox.information(None,"DEBUGnearestIndex:",str(nearestsfids))
                     #http://blog.vitu.ch/10212013-1331/advanced-feature-requests-qgis
@@ -283,16 +306,45 @@ class Ui_Dialog(object):
                     newfeat.setAttributes(Values)
                     #bascule en mode édition- comme icône crayon  :
                     PtsProj.startEditing()
-                    # ce qui suit ajoute les géom et valeurs des enregistrements,
                     prPtsProj.addFeatures([ newfeat ])
                     # même effet que: PtsProj.addFeature(newfeat,True)
                     #Quitte le mode édition et enregistre les modifs:
                     PtsProj.commitChanges()
+                    ####
+                    # PProjMin est un QgsPointXY
+                    # QgsPointXY de point P
+                    #PPP=QgsPointXY(PX,PY)
+                    PP=QgsPoint(PX,PY)
+                    PPP=QgsPoint(PProjMin.x(),PProjMin.y())
+                    geomppp=QgsGeometry().fromPointXY(PProjMin)
+                    MultiLine=[]
+                    MultiLine=[PPP,PProjMin]
+                    #GeomLine=QgsGeometry.fromMultiPolylineXY(MultiLine)
+                    #?GeomLine=QgsGeometry.fromPolyline((PointP,geomppp.asPoint()))
+                    #GeomLine=QgsGeometry.fromPolyline((PointP,geomppp)) # index 0 has type 'QgsGeometry' but 'QgsPoint' is expected 
+                    GeomLine=QgsGeometry.fromPolyline((PP,PPP)) #index 0 has type 'QgsPointXY' but 'QgsPoint' is expected 
+                    newfeatSEGMENTS.setGeometry(GeomLine)
+                    ValuesSegments=[Point_id]
+                    ValuesSegments.append(min_dist)
+                    ValuesSegments.append(fonctionsF.twodecimal(PX))
+                    ValuesSegments.append(fonctionsF.twodecimal(PY))
+                    ValuesSegments.append(fonctionsF.twodecimal(PProjMin.x()))
+                    ValuesSegments.append(fonctionsF.twodecimal(PProjMin.y()))
+                    newfeatSEGMENTS.setAttributes(ValuesSegments)
+                    prSEGMENTS.addFeatures([newfeatSEGMENTS ])
+                    # ce qui suit ajoute les géom et valeurs des enregistrements,
+                   
+                    SEGMENTS.commitChanges()
                     zPercent = int(100 * counterProgess / zDim)
                     self.progressBar.setValue(zPercent)
-                    self.iface.mapCanvas().refresh()    
-            else: pass          
-        else: pass
+                    self.iface.mapCanvas().refresh()
+
+                    
+             
+
                 
+             
+
+    
                 
              
