@@ -200,7 +200,7 @@ class Ui_Dialog(object):
         d.exec_()
     
     def Run(self):
-        
+        proj_crs=QgsProject.instance().crs()
         SelectionP = self.ComboBoxPoints.currentText()
         CoucheP=fonctionsF.getVectorLayerByName(SelectionP)
         SelectionL = self.ComboBoxLignes.currentText()
@@ -256,6 +256,7 @@ class Ui_Dialog(object):
                 
                 prSEGMENTS.addAttributes(listFields)
                 SEGMENTS.startEditing()
+                SEGMENTS.setCrs(proj_crs)
                 newfeatSEGMENTS=QgsFeature()
                 ##
                 
@@ -306,6 +307,7 @@ class Ui_Dialog(object):
                     newfeat.setAttributes(Values)
                     #bascule en mode édition- comme icône crayon  :
                     PtsProj.startEditing()
+                    PtsProj.setCrs(proj_crs)
                     prPtsProj.addFeatures([ newfeat ])
                     # même effet que: PtsProj.addFeature(newfeat,True)
                     #Quitte le mode édition et enregistre les modifs:
@@ -342,9 +344,5 @@ class Ui_Dialog(object):
                     
              
 
-                
-             
-
-    
                 
              
